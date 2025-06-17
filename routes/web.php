@@ -1,18 +1,18 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Models\Blog;
+use App\Models\Post;
 
 Route::get('/about', function () {
     return view('about', ['title' => 'About', 'data' => 'Hello, its the about page !']);
 });
 
 Route::get('/blog', function () {
-    return view('blog', ['title' => 'Blog', 'data' => Blog::all()]);
+    return view('blog', ['title' => 'Blog', 'data' => Post::all()]);
 });
 
-Route::get('blog/{blog:slug}', function (Blog $blog) {
-    return view('blog-detail', ['title' => 'Blog Detail', 'blog' => $blog]);
+Route::get('blog/{post:slug}', function (Post $post) {
+    return view('blog-detail', ['title' => 'Blog Detail', 'blog' => $post]);
 });
 
 Route::get('/', function () {
