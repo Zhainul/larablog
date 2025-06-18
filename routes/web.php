@@ -26,9 +26,9 @@ Route::get('/contact', function () {
 });
 
 Route::get('/blog-author/{user:username}', function (User $user) {
-    return view('blog', ['title' => 'Blog', 'header' => 'Article by '.$user->name, 'data' => $user->post]);
+    return view('blog', ['title' => 'Blog', 'header' => count($user->post).' Article by '.$user->name, 'data' => $user->post]);
 });
 
 Route::get('/blog-category/{category:slug}', function (Category $category) {
-    return view('blog', ['title' => 'Blog', 'header' => 'Article with category '.$category->name, 'data' => $category->post]);
+    return view('blog', ['title' => 'Blog', 'header' => count($category->post).' Article with category '.$category->name, 'data' => $category->post]);
 });
