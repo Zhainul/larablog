@@ -2,6 +2,7 @@
 
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/about', function () {
@@ -24,6 +25,10 @@ Route::get('/contact', function () {
     return view('contact', ['title' => 'Contact', 'header' => 'Contact Page', 'data' => ['name' => 'Zainul Anwar', 'email' => 'zainul@kosme.co.id']]);
 });
 
-Route::get('/blog-author/{user:id}', function (User $user) {
+Route::get('/blog-author/{user:username}', function (User $user) {
     return view('blog', ['title' => 'Blog', 'header' => 'Article by '.$user->name, 'data' => $user->post]);
+});
+
+Route::get('/blog-category/{category:slug}', function (Category $category) {
+    return view('blog', ['title' => 'Blog', 'header' => 'Article with category '.$category->name, 'data' => $category->post]);
 });
