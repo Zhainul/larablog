@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Post extends Model
 {
     use HasFactory;
+    protected $with = ['user', 'category'];
     protected $fillable = ['title', 'author_id', 'slug', 'body'];
 
     public function user() : BelongsTo 
