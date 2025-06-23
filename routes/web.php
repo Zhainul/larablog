@@ -18,7 +18,7 @@ Route::get('/blog/{post:slug}', function (Post $post) {
 });
 
 Route::get('/', function () {
-    return view('home', ['title' => 'Home', 'header' => 'Home Page', 'data' => 'Hello, its the home page !']);
+    return view('home', ['title' => 'Home', 'header' => 'Home Page', 'data' => 'Share experiences and knowledge about technology and programming.']);
 });
 
 Route::get('/contact', function () {
