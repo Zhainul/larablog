@@ -13,7 +13,7 @@ Route::get('/blog', function () {
     return view('blog', ['title' => 'Blog', 'header' => 'All Articles', 'data' => Post::all()]);
 });
 
-Route::get('blog/{post:slug}', function (Post $post) {
+Route::get('/blog/{post:slug}', function (Post $post) {
     return view('blog-detail', ['title' => 'Blog', 'header' => 'Article Detail', 'blog' => $post]);
 });
 
