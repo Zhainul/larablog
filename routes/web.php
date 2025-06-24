@@ -32,3 +32,7 @@ Route::get('/blog-author/{user:username}', function (User $user) {
 Route::get('/blog-category/{category:slug}', function (Category $category) {
     return view('blog', ['title' => 'Blog', 'header' => count($category->post).' Article with category '.$category->name, 'data' => $category->post]);
 });
+
+Route::get('/login', function () {
+    return view('login');
+});
