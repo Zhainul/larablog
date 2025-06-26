@@ -1,8 +1,6 @@
 <?php
 
 use App\Models\Post;
-use App\Models\User;
-use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/about', function () {
@@ -10,8 +8,13 @@ Route::get('/about', function () {
 });
 
 Route::get('/blog', function () {
-    $data = Post::filter(request(['search', 'category', 'user']))->latest()->get();
-    return view('blog', ['title' => 'Blog', 'header' => 'All Articles', 'data' => $data]);
+    if (!request('category') && !request('user')) {
+        $data = Post::filterAll(request('search'))->latest()->get();
+    }else{
+        $data = Post::filter(request(['search', 'category', 'user']))->latest()->get();
+    }
+    $header = !request('search') ? 'All Articles' : count($data).' Articles found';
+    return view('blog', ['title' => 'Blog', 'header' => $header, 'data' => $data]);
 });
 
 Route::get('/blog/{post:slug}', function (Post $post) {
