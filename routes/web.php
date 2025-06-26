@@ -10,7 +10,8 @@ Route::get('/about', function () {
 });
 
 Route::get('/blog', function () {
-    return view('blog', ['title' => 'Blog', 'header' => 'All Articles', 'data' => Post::all()]);
+    $data = Post::filter(request(['search', 'category', 'user']))->latest()->get();
+    return view('blog', ['title' => 'Blog', 'header' => 'All Articles', 'data' => $data]);
 });
 
 Route::get('/blog/{post:slug}', function (Post $post) {
@@ -23,14 +24,6 @@ Route::get('/', function () {
 
 Route::get('/contact', function () {
     return view('contact', ['title' => 'Contact', 'header' => 'Contact Page', 'data' => ['name' => 'Zainul Anwar', 'email' => 'zainul@kosme.co.id']]);
-});
-
-Route::get('/blog-author/{user:username}', function (User $user) {
-    return view('blog', ['title' => 'Blog', 'header' => count($user->post).' Article by '.$user->name, 'data' => $user->post]);
-});
-
-Route::get('/blog-category/{category:slug}', function (Category $category) {
-    return view('blog', ['title' => 'Blog', 'header' => count($category->post).' Article with category '.$category->name, 'data' => $category->post]);
 });
 
 Route::get('/login', function () {
