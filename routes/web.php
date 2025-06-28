@@ -8,11 +8,7 @@ Route::get('/about', function () {
 });
 
 Route::get('/blog', function () {
-    if (!request('category') && !request('user')) {
-        $data = Post::filterAll(request('search'))->latest()->get();
-    }else{
-        $data = Post::filter(request(['search', 'category', 'user']))->latest()->get();
-    }
+    $data = Post::filter(request(['search', 'category', 'user']))->latest()->get();
     $header = !request('search') ? 'All Articles' : count($data).' Articles found';
     return view('blog', ['title' => 'Blog', 'header' => $header, 'data' => $data]);
 });

@@ -27,30 +27,28 @@ class Post extends Model
     }
 
     #[Scope]
-    protected function filterAll(Builder $query, mixed $words) : void 
-    {
-         $query->when($words ?? false, fn($query, $words) => 
-            $query->where('title', 'like', '%'.$words.'%')->orWhere('body', 'like', '%'.$words.'%')->orWhereHas('category', fn($query) => $query->where('name', 'like', '%'.$words.'%'))->orWhereHas('user', fn($query) => $query->where('name', 'like', '%'.$words.'%'))
-        );
-    }
-
-    #[Scope]
     protected function filter(Builder $query, array $filters) : void
     {
-        $query->when($filters['search'] ?? false, fn($query, $search) => 
-            $query->where('title', 'like', '%'.$search.'%')
-        );
+        if (isset($filters['search']) && (!isset($filters['category']) && !isset($filters['user']))) {
+            $query->when($filters['search'] ?? false, fn($query, $search) => 
+                $query->where('title', 'like', '%'.$search.'%')->orWhere('body', 'like', '%'.$search.'%')->orWhereHas('category', fn($query) => $query->where('name', 'like', '%'.$search.'%'))->orWhereHas('user', fn($query) => $query->where('name', 'like', '%'.$search.'%'))
+            );
+        }else{
+            $query->when($filters['search'] ?? false, fn($query, $search) => 
+                $query->where('title', 'like', '%'.$search.'%')
+            );
 
-        $query->when($filters['category'] ?? false, fn($query, $category) => 
-            $query->whereHas('category', fn($query) => 
-                $query->where('slug', $category)
-            )
-        );
+            $query->when($filters['category'] ?? false, fn($query, $category) => 
+                $query->whereHas('category', fn($query) => 
+                    $query->where('slug', $category)
+                )
+            );
 
-        $query->when($filters['user'] ?? false, fn($query, $username) => 
-            $query->whereHas('user', fn($query) => 
-                $query->where('username', $username)
-            )
-        );
+            $query->when($filters['user'] ?? false, fn($query, $username) => 
+                $query->whereHas('user', fn($query) => 
+                    $query->where('username', $username)
+                )
+            );
+        }
     }
 }
