@@ -8,7 +8,7 @@ Route::get('/about', function () {
 });
 
 Route::get('/blog', function () {
-    $data = Post::filter(request(['search', 'category', 'user']))->latest()->get();
+    $data = Post::filter(request(['search', 'category', 'user']))->latest()->paginate(10)->withQueryString();
     $header = !request('search') ? 'All Articles' : count($data).' Articles found';
     return view('blog', ['title' => 'Blog', 'header' => $header, 'data' => $data]);
 });

@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([UserSeeder::class, CategorySeeder::class]);
-        Post::factory()->count(10)->recycle([
+        Post::factory()->count(70)->recycle([
             User::all(),
             Category::all()
         ])->create();
